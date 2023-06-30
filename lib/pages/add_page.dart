@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flash_language/helpers/card_helpers.dart';
 import 'package:flash_language/helpers/const.dart';
 import 'package:flash_language/helpers/translation_helpers.dart';
+import 'package:flash_language/helpers/utils.dart';
 import 'package:flash_language/main.dart';
 import 'package:flash_language/providers/card_provider.dart';
 import 'package:flash_language/providers/metadata_provider.dart';
@@ -34,9 +35,9 @@ class _AddPageState extends ConsumerState<AddPage> {
     String? inLanguage = LANGUAGES[storage.getItem('inLanguage')];
 
     Response resp = await getTranslation(text, inLanguage, outLanguage);
-    dynamic data = jsonDecode(resp.body);
+    dynamic data = jsonDecode(utf8.decode(resp.bodyBytes));
     if (CardListReader != null) {
-      String translated = Uri.decodeFull(data["translations"][0]["text"]);
+      String translated = customUriDecode(data["translations"][0]["text"]);
       CardListReader!.add(text, translated, inLanguage!, outLanguage!);
       dynamic cards = CardListReader!.getSerializedCardList();
       storage.setItem('cards', cards);

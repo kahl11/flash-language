@@ -93,7 +93,11 @@ class _MyStatefulWidgetState extends ConsumerState<MyStatefulWidget> {
     return MaterialApp(
         title: 'Flash Language',
         theme: ThemeData(
-          useMaterial3: true,
+          filledButtonTheme: FilledButtonThemeData(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0))))),
           brightness: Brightness.dark,
           primaryColor: Colors.deepPurple[200],
           fontFamily: 'Roboto',

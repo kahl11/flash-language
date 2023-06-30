@@ -11,6 +11,7 @@ class InputWidget extends StatefulWidget {
 class _InputWidgetState extends State<InputWidget> {
   @override
   Widget build(BuildContext context) {
+    final TextEditingController inputController = TextEditingController();
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
@@ -26,7 +27,9 @@ class _InputWidgetState extends State<InputWidget> {
           ],
         ),
         child: TextField(
+          controller: inputController,
           onSubmitted: (s) {
+            inputController.clear();
             widget.onSubmit!(s);
           },
           textInputAction: TextInputAction.search,

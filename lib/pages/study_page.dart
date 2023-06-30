@@ -30,6 +30,7 @@ class _StudyPageState extends ConsumerState<StudyPage> {
   final LocalStorage storage = LocalStorage('cards.json');
   int selectedCard = -1;
   bool tapped = false;
+  List<CardData> filteredCards = [];
 
   @override
   void initState() {
@@ -43,13 +44,18 @@ class _StudyPageState extends ConsumerState<StudyPage> {
   Widget build(BuildContext context) {
     MetadataState metadata = ref.watch(MetaDataProvider);
     List<CardData> cards = ref.watch(CardListProvider);
-    List<CardData> filteredCards =
-        sortCardsBySelection(cards, metadata.inLanguage, metadata.outLanguage);
-    filteredCards.shuffle();
-    if (filteredCards.length > 0) {
-      selectedCard = 0;
-    }
-    print(selectedCard);
+    setState(() {
+      if (filteredCards.isEmpty) {
+        selectedCard = -1;
+        filteredCards = sortCardsBySelection(
+            cards, metadata.inLanguage, metadata.outLanguage);
+        filteredCards.shuffle();
+        if (filteredCards.isNotEmpty) {
+          selectedCard = 0;
+        }
+      }
+    });
+
     return Container(
         child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
@@ -66,16 +72,44 @@ class _StudyPageState extends ConsumerState<StudyPage> {
                               });
                             },
                             body: tapped
-                                ? filteredCards[selectedCard].body
-                                : filteredCards[selectedCard].header,
+                                ? filteredCards[selectedCard].header
+                                : filteredCards[selectedCard].body,
                             header: tapped
-                                ? 'The ${metadata.outLanguage} word for ${filteredCards[selectedCard].header} is'
-                                : 'What is the ${metadata.outLanguage} word for:',
+                                ? 'The ${metadata.inLanguage} word for ${filteredCards[selectedCard].body} is'
+                                : 'What is the ${metadata.inLanguage} word for:',
                             bodyTextSize: 20,
                             headerTextSize: 15,
                           )
                         : null),
-                FilledButton(onPressed: () {}, child: const Text('Filled')),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                    child: Row(children: [
+                      FilledButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedCard =
+                                  (selectedCard + 1) % filteredCards.length;
+                              tapped = false;
+                            });
+                          },
+                          child: const Padding(
+                              padding: EdgeInsetsDirectional.symmetric(
+                                  horizontal: 10),
+                              child: Text('Back'))),
+                      Expanded(child: Container()),
+                      FilledButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedCard =
+                                  (selectedCard + 1) % filteredCards.length;
+                              tapped = false;
+                            });
+                          },
+                          child: const Padding(
+                              padding: EdgeInsetsDirectional.symmetric(
+                                  horizontal: 10),
+                              child: Text('Next'))),
+                    ])),
               ],
             )));
   }
