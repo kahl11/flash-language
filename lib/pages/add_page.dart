@@ -26,7 +26,7 @@ class AddPage extends ConsumerStatefulWidget {
 
 class _AddPageState extends ConsumerState<AddPage> {
   CardList? CardListReader;
-  final LocalStorage storage = LocalStorage('cards.json');
+  final LocalStorage cardStore = LocalStorage('cards.json');
   int selectedCard = -1;
 
   Future<void> addTranslation(String text) async {
@@ -40,7 +40,7 @@ class _AddPageState extends ConsumerState<AddPage> {
       String translated = customUriDecode(data["translations"][0]["text"]);
       CardListReader!.add(text, translated, inLanguage!, outLanguage!);
       dynamic cards = CardListReader!.getSerializedCardList();
-      storage.setItem('cards', cards);
+      cardStore.setItem('cards', cards);
     }
   }
 

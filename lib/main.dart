@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: _title,
       home: MyStatefulWidget(),
     );
@@ -42,6 +43,7 @@ class _MyStatefulWidgetState extends ConsumerState<MyStatefulWidget> {
   void initState() {
     super.initState();
     Future(() async {
+      final LocalStorage cardStorage = LocalStorage('cards.json');
       final LocalStorage settings = LocalStorage('settings.json');
       await settings.ready;
       String? inLang = settings.getItem('inLanguage');
@@ -58,7 +60,6 @@ class _MyStatefulWidgetState extends ConsumerState<MyStatefulWidget> {
       ref.read(MetaDataProvider.notifier).update('inLanguage', inLang);
       ref.read(MetaDataProvider.notifier).update('outLanguage', outLang);
 
-      final LocalStorage cardStorage = LocalStorage('cards.json');
       await cardStorage.ready;
       List<dynamic>? data = cardStorage.getItem('cards');
       if (data != null) {
@@ -77,7 +78,7 @@ class _MyStatefulWidgetState extends ConsumerState<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     AddPage(),
     StudyPage(),
   ];
