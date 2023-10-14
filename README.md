@@ -1,16 +1,7 @@
-# flash_language
+# Flash Language
+A language learning memo card app, that translates and creates a card all with a single button.
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Simulator Screenshot - iPhone 14 - 2023-10-13 at 17 30 43](https://github.com/kahl11/flash-language/assets/99628431/80247bb2-0eef-45bd-96e6-4d70e609a637)
+![Simulator Screenshot - iPhone 14 - 2023-10-13 at 17 30 58](https://github.com/kahl11/flash-language/assets/99628431/289c0875-e305-4a49-9b28-a3825931ba7d)
